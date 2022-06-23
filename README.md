@@ -1,4 +1,4 @@
-** A small yet complete scalable framework for Go. **
+**A small yet complete scalable framework for Go.**
 
 **_ requirements _**
 
