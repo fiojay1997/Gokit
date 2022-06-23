@@ -1,5 +1,5 @@
-\*\* A small yet complete scalable framework for Go.
+** A small yet complete scalable framework for Go. **
 
-\*\*\* requirements
+**_ requirements _**
 
 - Go 1.8
