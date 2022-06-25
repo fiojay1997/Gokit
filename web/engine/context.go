@@ -6,8 +6,12 @@ import (
 	"strings"
 )
 
+// H simplifies the map structure
+// Inspired by Gin
 type H map[string]interface{}
 
+// Context defines a request context
+// This includes the lifecycle of a request from beginning to finish
 type Context struct {
 	Writer     http.ResponseWriter
 	Request    *http.Request
@@ -16,6 +20,7 @@ type Context struct {
 	StatusCode int
 }
 
+// NewContext gives a new context
 func NewContext(w http.ResponseWriter, req *http.Request) *Context {
 	return &Context{
 		Writer:  w,
@@ -25,23 +30,28 @@ func NewContext(w http.ResponseWriter, req *http.Request) *Context {
 	}
 }
 
+// PostForm gets the form data from the request
 func (c *Context) PostForm(key string) string {
 	return c.Request.FormValue(key)
 }
 
+// Query gets the request of the given key
 func (c *Context) Query(key string) string {
 	return c.Request.URL.Query().Get(key)
 }
 
+// Status sets the return HTTP status code
 func (c *Context) Status(code int) {
 	c.StatusCode = code
 	c.Writer.WriteHeader(code)
 }
 
+// SetHeader sets the header of the request
 func (c *Context) SetHeader(key string, value string) {
 	c.Writer.Header().Set(key, value)
 }
 
+// String sets the response content with the given string
 func (c *Context) String(code int, format string, values ...interface{}) {
 	c.SetHeader("Content-Type", "text/plain")
 	c.Status(code)
@@ -53,6 +63,7 @@ func (c *Context) String(code int, format string, values ...interface{}) {
 	c.Writer.Write([]byte(sb.String()))
 }
 
+// JSON sets the response content with the given JSON object
 func (c *Context) JSON(code int, obj interface{}) {
 	c.SetHeader("Content-Type", "application/json")
 	c.Status(code)
@@ -62,11 +73,13 @@ func (c *Context) JSON(code int, obj interface{}) {
 	}
 }
 
+// Data sets the response content with raw type of data
 func (c *Context) Data(code int, data []byte) {
 	c.Status(code)
 	c.Writer.Write(data)
 }
 
+// HTML sets the response content with given HTML template
 func (c *Context) HTML(code int, html string) {
 	c.SetHeader("Content-Type", "text/html")
 	c.Status(code)
