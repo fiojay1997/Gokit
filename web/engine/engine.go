@@ -49,7 +49,7 @@ func (e *Engine) DELETE(pattern string, handler HandleFunc) {
 // This takes over the control of interceptor in HTTP package
 func (e *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	c := NewContext(w, req)
-	e.router.handle(c)
+	e.router.getRoute(c)
 }
 
 // Run executes the engine with the mapped routes and methods
